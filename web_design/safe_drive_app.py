@@ -1,66 +1,112 @@
 import streamlit as st
 import base64
+import os
 
-# 페이지 설정
-st.set_page_config(page_title="SAFE DRIVE 캠페인", page_icon="🚗", layout="wide")
+st.set_page_config(page_title="안전한 운전, 사고 없는 내일", layout="wide")
 
-# 배경 이미지 적용 함수
-def set_background(image_file):
-    with open(image_file, "rb") as f:
+# 이미지 Base64 변환 함수
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
         data = f.read()
-    encoded = base64.b64encode(data).decode()
-    css = f"""
+    return base64.b64encode(data).decode()
+
+# 현재 파일 위치 기준 이미지 경로
+current_dir = os.path.dirname(__file__)
+img_path = os.path.join(current_dir, "safecar1.png")   # 배경 이미지 파일
+img_base64 = get_base64_of_bin_file(img_path)
+
+# CSS 정의
+st.markdown(
+    f"""
     <style>
-    html, body, .stApp {{
-        height: 100%;
-        margin: 0;
-        overflow: hidden; /* 스크롤 제거 */
-    }}
     .stApp {{
-        background-image: url("data:image/png;base64,{encoded}");
+        background-image: url("data:image/png;base64,{img_base64}");
         background-size: cover;
-        background-repeat: no-repeat;
         background-position: center;
     }}
-    /* 중앙 정렬 컨테이너 */
-    .main-container {{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh; /* 전체 화면 높이 기준 중앙 배치 */
-        text-align: center;
+    .main-box {{
+        background: rgba(255,255,255,0.85);
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 950px;
+        margin:auto;
+        margin-top: 40px;
     }}
-    h1 {{
-        font-size: 80px;
-        color: #2C3E50;
+    .main-title {{
+        font-size: 54px; 
+        font-weight: 900; 
+        color: #222; 
+        line-height: 1.1; 
+        margin-bottom: 0px;
+    }}
+    .sub-title {{
+        font-size: 50px; 
+        font-weight: 700; 
+        color: #428AF7; 
+        margin-bottom: 32px; 
+        margin-top: -10px;
+    }}
+    .desc {{
+        font-size: 22px; 
+        color: #444; 
         margin-bottom: 40px;
     }}
+    .btn-container {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }}
+    div.stButton > button:first-child {{
+        background:#428AF7;
+        color:white;
+        border:none;
+        border-radius:8px;
+        padding:16px 28px;
+        font-size:18px;
+        font-weight:600;
+        cursor:pointer;
+    }}
+    div.stButton.secondary > button:first-child {{
+        background:white;
+        color:#333;
+        border:1px solid #ddd;
+        border-radius:8px;
+        padding:16px 28px;
+        font-size:18px;
+        font-weight:600;
+        cursor:pointer;
+    }}
     </style>
-    """
-    st.markdown(css, unsafe_allow_html=True)
-
-# safecar1.png 파일을 배경으로 적용
-set_background("safecar1.png")
-
-# 중앙 컨테이너 시작
-st.markdown('<div class="main-container">', unsafe_allow_html=True)
-
-# 메인 타이틀
-st.markdown("<h1>🚗 SAFE DRIVE 캠페인</h1>", unsafe_allow_html=True)
-
-# 안전 가이드 메뉴 (타이틀 바로 밑 중앙)
-st.subheader("🧾 안전 가이드")
-st.write("전문적인 안전 운전 팁을 제공합니다.")
-if st.button("안전 가이드 시작하기"):
-    st.info("👉 안전 운전 가이드 페이지로 이동합니다.")
-
-# 컨테이너 종료
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 푸터 (하단 고정)
-st.markdown("---")
-st.markdown(
-    "<p style='text-align:center; color:gray;'>© 2025 Safe Drive Campaign</p>",
+    """,
     unsafe_allow_html=True
 )
+
+# 메인 박스 + 타이틀 + 문구 + 버튼
+st.markdown(
+    """
+    <div class="main-box">
+        <div class="main-title">안전한 운전,</div>
+        <div class="sub-title">사고 없는 내일</div>
+        <div class="desc">
+            전문적인 안전 운전 팁과 실시간 통계로<br>
+            당신의 안전한 여행을 지켜드립니다.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# 버튼 영역 (좌우 끝 정렬)
+col_spacer1, col_left, col_right, col_spacer2 = st.columns([3, 3, 2, 2])
+
+with col_left:
+    st.markdown('<div class="stButton">', unsafe_allow_html=True)
+    if st.button("안전 가이드 시작하기 →", key="guide_btn"):
+        st.switch_page("pages/driver_input.py")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with col_right:
+    st.markdown('<div class="stButton secondary">', unsafe_allow_html=True)
+    if st.button("통계 확인하기", key="stats_btn"):
+        st.switch_page("pages/stats.py")
+    st.markdown('</div>', unsafe_allow_html=True)
