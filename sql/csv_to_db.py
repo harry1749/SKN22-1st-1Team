@@ -9,7 +9,7 @@ MYSQL_USER = 'skn22'
 MYSQL_PASSWORD = 'skn22'         # MySQL 비밀번호
 MYSQL_HOST = 'localhost'         # 또는 127.0.0.1
 MYSQL_PORT = '3306'
-MYSQL_DB_NAME = 'traffic_safety'   # 사용자가 생성한 DB 이름
+MYSQL_DB_NAME = 'project_1'   # 사용자가 생성한 DB 이름
 
 # SQLAlchemy 연결 문자열 생성 (PyMySQL 드라이버 사용)
 DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB_NAME}?charset=utf8mb4"
