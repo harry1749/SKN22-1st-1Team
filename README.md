@@ -63,8 +63,8 @@ Repository for SKN22-1st-1Team
 | DRIVER   | InjuryLevel          | 상해정도                |
 
 
-## **WorkFlow**
-<img src="image/Web_flowchart.png" width="60%">
+## **🏊‍♂️WorkFlow**
+<img src="image/Web_flowchart.jpg" width="60%">
 
 ## **📖ERD**
 <img src="image/ERD.png" width="60%">
