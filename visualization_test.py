@@ -1,23 +1,19 @@
 import pandas as pd
-from sqlalchemy import create_engine, text # `text` 함수를 여기서도 import합니다.
+from sqlalchemy import create_engine, text # text 함수 import
 import sys
 import os
 
 # --- 1. Visualizer 클래스 Import ---
 # analyzer/visualizer.py 에 파일이 있다고 가정합니다.
 try:
-    # `my_project/` 폴더에서 `python test_visualizer.py`를 실행한다고 가정
-    # `my_project/analyzer/` 폴더의 `visualizer.py`를 찾음
     from web_design.visualizer import AccidentVisualizer
     print("성공: 'analyzer.visualizer'를 찾았습니다.")
 except ImportError:
-    # 만약 `analyzer` 폴더 없이 `visualizer.py`가 같은 폴더에 있다면
     try:
-        from web_design.visualizer import AccidentVisualizer
+        from visualizer import AccidentVisualizer
         print("성공: 'visualizer'를 찾았습니다. (같은 폴더)")
     except ImportError as e:
         print(f"오류: 'analyzer/visualizer.py' 또는 'visualizer.py'를 찾을 수 없습니다.")
-        print("PYTHONPATH를 확인하세요.")
         print(f"상세 오류: {e}")
         sys.exit()
 
@@ -53,20 +49,22 @@ print("AccidentVisualizer 인스턴스가 성공적으로 생성되었습니다.
 print("\n" + "="*30)
 print("테스트 1: get_available_columns()")
 print("="*30)
+# 이제 '한글 레이블' 목록이 반환됩니다.
 columns = viz.get_available_columns()
-print(f"사용 가능한 컬럼 ({len(columns)}개):")
+print(f"사용 가능한 한글 레이블 ({len(columns)}개):")
 print(columns)
 
 
 # --- 5. 테스트 2: 막대 차트 (Case 1: 범주형 vs 수치형) ---
 print("\n" + "="*30)
-print("테스트 2: Bar Chart 생성 (수평, 상위 20개)")
-print("변수: 'REGION.RegionName' vs 'ACCIDENT.(사고건수)'")
+print("테스트 2: Bar Chart 생성 (수직, 상위 20개)")
+print("변수: '지역명 (시군구)' vs '사고건수'")
 print("="*30)
-var1 = 'REGION.RegionName'
-var2 = 'ACCIDENT.(사고건수)'
+# 내부 DB 이름 대신 한글 레이블을 사용합니다.
+label1 = '지역명 (시군구)'
+label2 = '사고건수'
 
-fig1, title1 = viz.generate_visualization(var1, var2)
+fig1, title1 = viz.generate_visualization(label1, label2)
 
 if fig1:
     print(f"성공: '{title1}' 차트 생성 완료.")
@@ -79,12 +77,13 @@ else:
 # --- 6. 테스트 3: 그룹형 막대 차트 (Case 3: 범주형 vs 범주형) ---
 print("\n" + "="*30)
 print("테스트 3: 그룹형 막대 차트 생성")
-print("변수: 'ACCIDENT.DayNight' vs 'ACCIDENT.AccidentType'")
+print("변수: '주야' vs '사고유형'")
 print("="*30)
-var3 = 'ACCIDENT.DayNight'
-var4 = 'ACCIDENT.AccidentType'
+# 한글 레이블 사용
+label3 = '주야'
+label4 = '사고유형'
 
-fig2, title2 = viz.generate_visualization(var3, var4)
+fig2, title2 = viz.generate_visualization(label3, label4)
 
 if fig2:
     print(f"성공: '{title2}' 차트 생성 완료.")
@@ -97,12 +96,13 @@ else:
 # --- 7. 테스트 4: 다중 라인 차트 (Case 5: 시간형 vs 범주형) ---
 print("\n" + "="*30)
 print("테스트 4: Multi-Line Chart 생성")
-print("변수: 'ACCIDENT.OccurYearMonth' vs 'DRIVER.Gender'")
+print("변수: '발생년월' vs '운전자 성별'")
 print("="*30)
-var5 = 'ACCIDENT.OccurYearMonth'
-var6 = 'DRIVER.Gender'
+# 한글 레이블 사용
+label5 = '발생년월'
+label6 = '운전자 성별'
 
-fig3, title3 = viz.generate_visualization(var5, var6)
+fig3, title3 = viz.generate_visualization(label5, label6)
 
 if fig3:
     print(f"성공: '{title3}' 차트 생성 완료.")
@@ -112,15 +112,16 @@ else:
     print(f"실패: 차트 생성 중 오류: {title3}")
 
 
-# --- 8. [신규] 테스트 5: 라인 차트 (Case 2: 시간형 vs 수치형) ---
+# --- 8. 테스트 5: 라인 차트 (Case 2: 시간형 vs 수치형) ---
 print("\n" + "="*30)
 print("테스트 5: 라인 차트 (Case 2)")
-print("변수: 'ACCIDENT.OccurYearMonth' vs 'ACCIDENT.DeathCount'")
+print("변수: '발생년월' vs '사망자수'")
 print("="*30)
-var7 = 'ACCIDENT.OccurYearMonth'
-var8 = 'ACCIDENT.DeathCount'
+# 한글 레이블 사용
+label7 = '발생년월'
+label8 = '사망자수'
 
-fig4, title4 = viz.generate_visualization(var7, var8)
+fig4, title4 = viz.generate_visualization(label7, label8)
 
 if fig4:
     print(f"성공: '{title4}' 차트 생성 완료.")
@@ -130,15 +131,16 @@ else:
     print(f"실패: 차트 생성 중 오류: {title4}")
 
 
-# --- 9. [신규] 테스트 6: 2D 히트맵 (Case 4: 수치형 vs 수치형) ---
+# --- 9. 테스트 6: 버블 차트 (Case 4: 수치형 vs 수치형) ---
 print("\n" + "="*30)
-print("테스트 6: 산점도 (Case 4)")
-print("변수: 'ACCIDENT.SevereInjuryCount' vs 'ACCIDENT.MinorInjuryCount'")
+print("테스트 6: 버블 차트 (Case 4)")
+print("변수: '중상자수' vs '경상자수'")
 print("="*30)
-var9 = 'ACCIDENT.SevereInjuryCount'
-var10 = 'ACCIDENT.MinorInjuryCount'
+# 한글 레이블 사용
+label9 = '중상자수'
+label10 = '경상자수'
 
-fig5, title5 = viz.generate_visualization(var9, var10)
+fig5, title5 = viz.generate_visualization(label9, label10)
 
 if fig5:
     print(f"성공: '{title5}' 차트 생성 완료.")
