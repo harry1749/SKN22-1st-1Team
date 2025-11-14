@@ -71,8 +71,5 @@ col_left, col_mid, col_right = st.columns([1, 6, 1])
 
 with col_left:
     if st.button("← 이전 페이지", key="prev_btn"):
-        st.switch_page("pages/stats.py")
+        st.switch_page("pages/guide_all.py")
 
-with col_right:
-    if st.button("안전운전 체크리스트 가기 →", key="checklist_btn"):
-        st.switch_page("pages/checklist.py")
