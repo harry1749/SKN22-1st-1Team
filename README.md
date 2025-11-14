@@ -73,7 +73,7 @@ Repository for SKN22-1st-1Team
 
 ## 👪 팀원
 
-|        이신재        |        이준서        |        한승혁        |        황하령        |
-|:--------------------:|:--------------------:|:--------------------:|:--------------------:|
-| `@Codingcooker74`    | `@Leejunseo84`       | `@gksshing`          | `@harry1749`         |
+| 이신재 | 이준서 | 한승혁 | 황하령 |
+| :---: | :---: | :---: | :---: |
+| [![GitHub](https://img.shields.io/badge/GitHub-Codingcooker74-181717?style=flat&logo=github&logoColor=white)](https://github.com/Codingcooker74) | [![GitHub](https://img.shields.io/badge/GitHub-Leejunseo84-181717?style=flat&logo=github&logoColor=white)](https://github.com/Leejunseo84) | [![GitHub](https://img.shields.io/badge/GitHub-gksshing-181717?style=flat&logo=github&logoColor=white)](https://github.com/gksshing) | [![GitHub](https://img.shields.io/badge/GitHub-harry1749-181717?style=flat&logo=github&logoColor=white)](https://github.com/harry1749) |
 
